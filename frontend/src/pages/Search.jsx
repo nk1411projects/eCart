@@ -214,7 +214,7 @@ const Search = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', gap: '1rem', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', gap: '1rem', flexWrap: 'wrap', position: 'relative' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem' }}>
             {keyword ? `Search Results for "${keyword}"` : 'Browse Catalog'}

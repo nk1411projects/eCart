@@ -88,20 +88,14 @@ const Cart = () => {
             const price = variant ? variant.price : (item.product.price || 0);
 
             return (
-              <div key={`${item.product._id}-${item.variantId}`} style={{
-                display: 'flex',
-                gap: '1rem',
-                alignItems: 'center',
-                padding: '1.5rem 0',
-                borderBottom: '1px solid var(--border-color)'
-              }}>
+              <div key={`${item.product._id}-${item.variantId}`} className="cart-item">
                 {/* Thumb */}
                 <div style={{ width: '80px', height: '80px', flexShrink: 0, borderRadius: '8px', overflow: 'hidden', background: '#151525' }}>
                   <img src={item.product.images?.[0] || 'https://placehold.co/100'} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
 
                 {/* Details */}
-                <div style={{ flexGrow: 1 }}>
+                <div className="cart-item-details">
                   <h3 style={{ fontSize: '1rem', marginBottom: '0.2rem' }}>
                     <Link to={`/products/${item.product._id}`}>{item.product.title}</Link>
                   </h3>
@@ -115,33 +109,36 @@ const Cart = () => {
                   </div>
                 </div>
 
-                {/* Quantities */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--bg-input)', padding: '0.3rem', borderRadius: '6px' }}>
+                {/* Actions Group */}
+                <div className="cart-item-actions">
+                  {/* Quantities */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'var(--bg-input)', padding: '0.3rem', borderRadius: '6px' }}>
+                    <button 
+                      className="btn btn-secondary" 
+                      style={{ padding: '0.2rem', minWidth: '24px', borderRadius: '4px' }}
+                      onClick={() => updateQuantity(item.product._id, item.variantId, item.quantity - 1)}
+                    >
+                      <Minus size={12} />
+                    </button>
+                    <span style={{ fontSize: '0.9rem', width: '20px', textAlign: 'center', fontWeight: 600 }}>{item.quantity}</span>
+                    <button 
+                      className="btn btn-secondary" 
+                      style={{ padding: '0.2rem', minWidth: '24px', borderRadius: '4px' }}
+                      onClick={() => updateQuantity(item.product._id, item.variantId, item.quantity + 1)}
+                    >
+                      <Plus size={12} />
+                    </button>
+                  </div>
+
+                  {/* Delete */}
                   <button 
                     className="btn btn-secondary" 
-                    style={{ padding: '0.2rem', minWidth: '24px', borderRadius: '4px' }}
-                    onClick={() => updateQuantity(item.product._id, item.variantId, item.quantity - 1)}
+                    style={{ padding: '0.5rem', color: 'var(--danger)', borderColor: 'transparent' }}
+                    onClick={() => removeFromCart(item.product._id, item.variantId)}
                   >
-                    <Minus size={12} />
-                  </button>
-                  <span style={{ fontSize: '0.9rem', width: '20px', textAlign: 'center', fontWeight: 600 }}>{item.quantity}</span>
-                  <button 
-                    className="btn btn-secondary" 
-                    style={{ padding: '0.2rem', minWidth: '24px', borderRadius: '4px' }}
-                    onClick={() => updateQuantity(item.product._id, item.variantId, item.quantity + 1)}
-                  >
-                    <Plus size={12} />
+                    <Trash2 size={16} />
                   </button>
                 </div>
-
-                {/* Delete */}
-                <button 
-                  className="btn btn-secondary" 
-                  style={{ padding: '0.5rem', color: 'var(--danger)', borderColor: 'transparent' }}
-                  onClick={() => removeFromCart(item.product._id, item.variantId)}
-                >
-                  <Trash2 size={16} />
-                </button>
               </div>
             );
           })}
