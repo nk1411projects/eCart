@@ -12,6 +12,7 @@ const Search = () => {
   const [categories, setCategories] = useState([]);
   const [brandsList, setBrandsList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   
   // Pagination state
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, totalProducts: 0 });
@@ -225,12 +226,18 @@ const Search = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           {/* Mobile Filters Dropdown Trigger (visible on mobile only) */}
           <div className="mobile-filters-trigger">
-            <button className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.85rem' }}>
+            <button 
+              className="btn btn-secondary" 
+              onClick={() => setShowMobileFilters(!showMobileFilters)}
+              style={{ padding: '0.4rem 0.8rem', display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.85rem' }}
+            >
               <MoreVertical size={16} /> Filters
             </button>
-            <div className="mobile-filters-content glass-panel">
-              {renderFiltersContent()}
-            </div>
+            {showMobileFilters && (
+              <div className="mobile-filters-content glass-panel" style={{ display: 'block' }}>
+                {renderFiltersContent()}
+              </div>
+            )}
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

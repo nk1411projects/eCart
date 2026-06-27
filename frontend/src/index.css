@@ -490,10 +490,6 @@ tr:hover td {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
-.mobile-filters-trigger:hover .mobile-filters-content {
-  display: block;
-}
-
 /* Cart Item Responsive Layout */
 .cart-item {
   display: flex;
@@ -610,12 +606,12 @@ tr:hover td {
   .cart-item {
     align-items: flex-start !important;
     position: relative !important;
-    padding-bottom: 2.5rem !important;
+    padding-bottom: 3.2rem !important;
   }
   
   .cart-item-actions {
     position: absolute !important;
-    bottom: 0.5rem !important;
+    bottom: 0.6rem !important;
     left: 96px !important;
     width: calc(100% - 96px) !important;
     justify-content: space-between !important;
