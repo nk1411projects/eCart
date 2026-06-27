@@ -470,6 +470,30 @@ tr:hover td {
   color: var(--text-primary);
 }
 
+/* Mobile Search Filters Dropdown styles */
+.mobile-filters-trigger {
+  position: relative;
+  display: none;
+}
+
+.mobile-filters-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 150;
+  min-width: 280px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 1.2rem;
+  margin-top: 0.3rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.mobile-filters-trigger:hover .mobile-filters-content {
+  display: block;
+}
+
 /* Responsive Overrides */
 .checkout-layout {
   display: grid;
@@ -542,5 +566,13 @@ tr:hover td {
     order: 3;
     max-width: 100%;
     width: 100%;
+  }
+  
+  .catalog-sidebar {
+    display: none !important;
+  }
+  
+  .mobile-filters-trigger {
+    display: inline-block;
   }
 }

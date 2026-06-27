@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { catalogAPI } from '../services/api';
-import { Filter, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Filter, RotateCcw, ChevronLeft, ChevronRight, MoreVertical } from 'lucide-react';
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -112,132 +112,148 @@ const Search = () => {
     setSearchParams(params);
   };
 
+  const renderFiltersContent = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontWeight: 600 }}>
+          <Filter size={16} /> Filters
+        </span>
+        <span 
+          onClick={handleClearFilters} 
+          style={{ fontSize: '0.85rem', color: 'var(--primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem' }}
+        >
+          <RotateCcw size={12} /> Reset
+        </span>
+      </div>
+
+      {/* Categories filter */}
+      <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '0.8rem' }}>
+        <h4 style={{ fontSize: '0.9rem', marginBottom: '0.6rem' }}>Category</h4>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', maxHeight: '250px', overflowY: 'auto', paddingRight: '5px' }}>
+          <div 
+            onClick={() => handleFilterChange('category', '')}
+            style={{
+              fontSize: '0.85rem',
+              color: selectedCategory === '' ? 'var(--primary)' : 'var(--text-secondary)',
+              fontWeight: selectedCategory === '' ? 600 : 400,
+              cursor: 'pointer'
+            }}
+          >
+            All Categories
+          </div>
+          {categories
+            .filter(cat => cat.parent)
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map(cat => (
+              <div 
+                key={cat._id}
+                onClick={() => handleFilterChange('category', cat.slug)}
+                style={{
+                  fontSize: '0.85rem',
+                  color: selectedCategory === cat.slug ? 'var(--primary)' : 'var(--text-secondary)',
+                  fontWeight: selectedCategory === cat.slug ? 600 : 400,
+                  cursor: 'pointer',
+                  paddingLeft: '0.5rem'
+                }}
+              >
+                {cat.name}
+              </div>
+            ))}
+        </div>
+      </div>
+
+      {/* Price filter */}
+      <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '0.8rem' }}>
+        <h4 style={{ fontSize: '0.9rem', marginBottom: '0.6rem' }}>Price ($)</h4>
+        <form onSubmit={handlePriceApply} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '0.4rem', alignItems: 'center' }}>
+          <input 
+            type="number" 
+            className="form-control" 
+            style={{ padding: '0.4rem', fontSize: '0.85rem' }} 
+            placeholder="Min" 
+            value={localMinPrice} 
+            onChange={(e) => setLocalMinPrice(e.target.value)}
+          />
+          <input 
+            type="number" 
+            className="form-control" 
+            style={{ padding: '0.4rem', fontSize: '0.85rem' }} 
+            placeholder="Max" 
+            value={localMaxPrice} 
+            onChange={(e) => setLocalMaxPrice(e.target.value)}
+          />
+          <button type="submit" className="btn btn-primary" style={{ padding: '0.4rem 0.6rem', fontSize: '0.8rem' }}>Go</button>
+        </form>
+      </div>
+
+      {/* Rating Filter */}
+      <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '0.8rem' }}>
+        <h4 style={{ fontSize: '0.9rem', marginBottom: '0.6rem' }}>Minimum Rating</h4>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+          {[4, 3, 2, 1].map((r) => (
+            <div 
+              key={r}
+              onClick={() => handleFilterChange('rating', r.toString())}
+              style={{
+                fontSize: '0.85rem',
+                color: rating === r.toString() ? 'var(--primary)' : 'var(--text-secondary)',
+                fontWeight: rating === r.toString() ? 600 : 400,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.3rem'
+              }}
+            >
+              {'⭐'.repeat(r)} <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>& Up</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', gap: '1rem', flexWrap: 'wrap' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem' }}>
             {keyword ? `Search Results for "${keyword}"` : 'Browse Catalog'}
           </h1>
         </div>
 
-        {/* Sorting Dropdown */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Sort By:</span>
-          <select 
-            value={sort} 
-            onChange={(e) => handleFilterChange('sort', e.target.value)}
-            className="form-control"
-            style={{ width: '160px', padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
-          >
-            <option value="newest">Newest Arrivals</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="rating">Top Rated</option>
-          </select>
+        {/* Sorting & Filters Toggle */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          {/* Mobile Filters Dropdown Trigger (visible on mobile only) */}
+          <div className="mobile-filters-trigger">
+            <button className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.85rem' }}>
+              <MoreVertical size={16} /> Filters
+            </button>
+            <div className="mobile-filters-content glass-panel">
+              {renderFiltersContent()}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Sort By:</span>
+            <select 
+              value={sort} 
+              onChange={(e) => handleFilterChange('sort', e.target.value)}
+              className="form-control"
+              style={{ width: '160px', padding: '0.4rem 0.8rem', fontSize: '0.85rem' }}
+            >
+              <option value="newest">Newest Arrivals</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating">Top Rated</option>
+            </select>
+          </div>
         </div>
       </div>
 
       <div className="dashboard-layout">
-        {/* Left Sidebar Filters */}
-        <div className="dashboard-sidebar">
-          <div style={{ padding: '0 1.5rem 0 0', display: 'flex', flexDirection: 'column', gap: '1.2rem', borderRight: '1px solid var(--border-color)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontWeight: 600 }}>
-                <Filter size={16} /> Filters
-              </span>
-              <span 
-                onClick={handleClearFilters} 
-                style={{ fontSize: '0.8rem', color: 'var(--primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.2rem' }}
-              >
-                <RotateCcw size={12} /> Reset
-              </span>
-            </div>
-
-            {/* Categories filter */}
-            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '0.8rem' }}>
-              <h4 style={{ fontSize: '0.9rem', marginBottom: '0.6rem' }}>Category</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', maxHeight: '300px', overflowY: 'auto', paddingRight: '5px' }}>
-                <div 
-                  onClick={() => handleFilterChange('category', '')}
-                  style={{
-                    fontSize: '0.85rem',
-                    color: selectedCategory === '' ? 'var(--primary)' : 'var(--text-secondary)',
-                    fontWeight: selectedCategory === '' ? 600 : 400,
-                    cursor: 'pointer'
-                  }}
-                >
-                  All Categories
-                </div>
-                {categories
-                  .filter(cat => cat.parent) // show subcategories under root Electronics
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map(cat => (
-                    <div 
-                      key={cat._id}
-                      onClick={() => handleFilterChange('category', cat.slug)}
-                      style={{
-                        fontSize: '0.85rem',
-                        color: selectedCategory === cat.slug ? 'var(--primary)' : 'var(--text-secondary)',
-                        fontWeight: selectedCategory === cat.slug ? 600 : 400,
-                        cursor: 'pointer',
-                        paddingLeft: '0.5rem'
-                      }}
-                    >
-                      {cat.name}
-                    </div>
-                  ))}
-              </div>
-            </div>
-
-            {/* Price filter */}
-            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '0.8rem' }}>
-              <h4 style={{ fontSize: '0.9rem', marginBottom: '0.6rem' }}>Price ($)</h4>
-              <form onSubmit={handlePriceApply} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '0.4rem', alignItems: 'center' }}>
-                <input 
-                  type="number" 
-                  className="form-control" 
-                  style={{ padding: '0.4rem', fontSize: '0.85rem' }} 
-                  placeholder="Min" 
-                  value={localMinPrice} 
-                  onChange={(e) => setLocalMinPrice(e.target.value)}
-                />
-                <input 
-                  type="number" 
-                  className="form-control" 
-                  style={{ padding: '0.4rem', fontSize: '0.85rem' }} 
-                  placeholder="Max" 
-                  value={localMaxPrice} 
-                  onChange={(e) => setLocalMaxPrice(e.target.value)}
-                />
-                <button type="submit" className="btn btn-primary" style={{ padding: '0.4rem 0.6rem', fontSize: '0.8rem' }}>Go</button>
-              </form>
-            </div>
-
-            {/* Rating Filter */}
-            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '0.8rem' }}>
-              <h4 style={{ fontSize: '0.9rem', marginBottom: '0.6rem' }}>Minimum Rating</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                {[4, 3, 2, 1].map((r) => (
-                  <div 
-                    key={r}
-                    onClick={() => handleFilterChange('rating', r.toString())}
-                    style={{
-                      fontSize: '0.85rem',
-                      color: rating === r.toString() ? 'var(--primary)' : 'var(--text-secondary)',
-                      fontWeight: rating === r.toString() ? 600 : 400,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.3rem'
-                    }}
-                  >
-                    {'⭐'.repeat(r)} <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>& Up</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        {/* Left Sidebar Filters (Desktop inline sidebar) */}
+        <div className="dashboard-sidebar catalog-sidebar" style={{ borderRight: '1px solid var(--border-color)', paddingRight: '2rem' }}>
+          {renderFiltersContent()}
         </div>
 
         {/* Right Product Grid */}
