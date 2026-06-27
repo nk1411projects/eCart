@@ -79,7 +79,7 @@ const Cart = () => {
     <div>
       <h1 style={{ fontSize: '1.8rem', marginBottom: '1.5rem' }}>Your Shopping Cart</h1>
 
-      <div className="dashboard-layout" style={{ gridTemplateColumns: '1.6fr 1fr', gap: '2.5rem' }}>
+      <div className="checkout-layout">
         {/* Left Column: Cart items list */}
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           {cartItems.map((item) => {
@@ -148,13 +148,7 @@ const Cart = () => {
         </div>
 
         {/* Right Column: Order Summary & Coupon Entry (Aside) */}
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '2rem',
-          borderLeft: '1px solid var(--border-color)',
-          paddingLeft: '2rem'
-        }}>
+        <div className="checkout-aside">
           {/* Summary Section */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <h3 style={{ fontSize: '1.2rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem' }}>

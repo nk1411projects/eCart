@@ -126,7 +126,7 @@ const ProductDetail = () => {
   return (
     <div>
       {/* Product Detail Grid Layout */}
-      <div className="dashboard-layout" style={{ gridTemplateColumns: '1.2fr 1fr', gap: '2.5rem', marginBottom: '3rem' }}>
+      <div className="product-details-layout">
         {/* Left Side: Images Gallery */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div className="glass-panel" style={{ padding: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px', overflow: 'hidden' }}>
@@ -253,7 +253,7 @@ const ProductDetail = () => {
       <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '2.5rem', marginTop: '2.5rem' }}>
         <h2 style={{ fontSize: '1.4rem', marginBottom: '1.5rem' }}>Customer Ratings & Reviews</h2>
 
-        <div className="dashboard-layout" style={{ gridTemplateColumns: '1fr 1.2fr', gap: '3rem' }}>
+        <div className="product-reviews-layout">
           {/* Left: Review Submission Form */}
           <div>
             {user ? (

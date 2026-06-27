@@ -142,7 +142,7 @@ const Checkout = () => {
         </div>
       )}
 
-      <div className="dashboard-layout" style={{ gridTemplateColumns: '1.6fr 1fr', gap: '2.5rem' }}>
+      <div className="checkout-layout">
         
         {/* Left Side: Addresses & Payments */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -349,13 +349,7 @@ const Checkout = () => {
         </div>
 
         {/* Right Side: Order summary review & Place Order */}
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '2rem',
-          borderLeft: '1px solid var(--border-color)',
-          paddingLeft: '2rem'
-        }}>
+        <div className="checkout-aside">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <h3 style={{ fontSize: '1.2rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem' }}>
               Final Review
