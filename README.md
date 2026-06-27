@@ -1,6 +1,6 @@
-# eCart — Production-Grade Multi-Vendor E-Commerce Platform
+# eCart — Multi-Vendor E-Commerce Platform
 
-Welcome to **eCart** — a production-ready, MERN stack multi-vendor e-commerce marketplace inside a single workspace. This repository features role-based access controls for **Customers**, **Sellers**, and **Platform Admins**.
+Welcome to **eCart** — a MERN stack multi-vendor e-commerce marketplace inside a single workspace. This repository features role-based access controls for **Customers**, **Sellers**, and **Platform Admins**.
 
 ---
 
@@ -46,31 +46,6 @@ Welcome to **eCart** — a production-ready, MERN stack multi-vendor e-commerce 
 
 ---
 
-## 🔑 Test Credentials (Seeded Accounts)
-
-You can instantly log in and test all system roles using the pre-seeded credentials below:
-
-### 1. Platform Super Admin
-- **Email:** `admin@ecart.com`
-- **Password:** `admin123`
-- **Role Permissions:** Platform-wide analytics, seller KYC verification approvals (adjusting commissions), customer suspensions toggles, coupon campaign launches, and security audit log reviews.
-
-### 2. Verified Sellers
-- **Seller 1 (Laptops/Phones):** `seller1@ecart.com` (Password: `seller123`)
-- **Seller 2 (Gaming/Audio):** `seller2@ecart.com` (Password: `seller123`)
-- **Role Permissions:** Performance metrics, catalog CRUD management (adding size/color variants), sub-order shipping updates (adding tracking carriers), and KYC profile edits.
-
-### 3. Customer User
-- **Email:** `customer1@ecart.com`
-- **Password:** `customer123`
-- **Role Permissions:** Browse products, apply coupons, select/add delivery addresses, buy items via Wallet credits (starts with **$35,000.00**!) or COD, track shipments, and submit verified reviews.
-
-### ⚡ Seeded Promotional Coupons
-- `WELCOME10`: 10% discount on order subtotals over $50.
-- `ECART50`: $50.00 flat discount on order subtotals over $200.
-
----
-
 ## 🛠️ Tech Stack & Directory Structure
 
 ### Backend
@@ -83,12 +58,3 @@ You can instantly log in and test all system roles using the pre-seeded credenti
 - **Routing:** React Router v6
 - **Styling:** Custom Vanilla CSS Design System (with hover micro-animations and dark-mode glassmorphism)
 - **Icons:** Lucide-React
-
----
-
-## 🐳 Docker Deployment
-
-For production deployments containing full containers orchestration (MongoDB, Redis, Elasticsearch):
-```bash
-docker-compose up -d
-```
