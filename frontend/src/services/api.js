@@ -1,4 +1,4 @@
-const BASE_URL = 'https://ecart-nrou.onrender.com/api/v1';
+const BASE_URL = import.meta.env.VITE_API_URL || 'https://ecart-nrou.onrender.com/api/v1';
 
 const request = async (url, options = {}) => {
   const defaultHeaders = {
