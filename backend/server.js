@@ -16,7 +16,7 @@ const app = express();
 
 // CORS configuration (allow Vite frontend port with credentials)
 const corsOptions = {
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: 'https://nk-ecart.vercel.app/',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
