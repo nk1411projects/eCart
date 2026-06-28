@@ -14,7 +14,7 @@ const About = () => {
       title: "eCart Multi-Vendor Marketplace",
       tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Tailwind CSS"],
       description: "A production-grade MERN marketplace featuring secure customer checkout via wallet credits, visual multi-vendor order splitting, seller inventory fulfillment dashboard with visual shipment timelines, and Super Admin KYC controls.",
-      link: "https://github.com/nk1411projects/eCart"
+      link: "https://nk-ecart.vercel.app/"
     },
     {
       title: "CareSync Clinic Portal",
@@ -23,10 +23,10 @@ const About = () => {
       link: "https://github.com/nk1411projects/CareSync"
     },
     {
-      title: "PhishGuard URL Detector",
+      title: "Phishing URL Detector",
       tech: ["React.js", "Flask", "Python", "Machine Learning"],
       description: "A cybersecurity URL classification tool. Evaluates suspicious website links in real-time using ML models to warn users of malicious phishing threats.",
-      link: "https://github.com/nk1411projects/PhishGuard"
+      link: "https://phishingdetctor1411.vercel.app/"
     }
   ];
 
